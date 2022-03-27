@@ -37,10 +37,28 @@ def griewank(x):
 def holder_table(x):
     return -abs(np.sin(x[0]) * np.cos(x[1]) * np.exp(abs(1 - np.sqrt(x[0] ** 2 + x[1] ** 2) / np.pi)))
 
+
 def levy(x):
-    w1 = 1 + (x[0]-1)/4
+    w1 = 1 + (x[0] - 1) / 4
     w2 = 1 + (x[1] - 1) / 4
-    return np.sin(np.pi*w1)**2 + (w1-1)**2*(1+10*np.sin(np.pi*w1+1)**2)+(w2-1)**2*(1+10*np.sin(2*np.pi*w2)**2)
+    return np.sin(np.pi * w1) ** 2 + (w1 - 1) ** 2 * (1 + 10 * np.sin(np.pi * w1 + 1) ** 2) + (w2 - 1) ** 2 * (
+                1 + 10 * np.sin(2 * np.pi * w2) ** 2)
+
+
+def levy13(x):
+    return np.sin(3 * np.pi * x[0]) ** 2 + (x[0] - 1) ** 2 * (1 + np.sin(3 * np.pi * x[0]) ** 2) + (x[1] - 1) ** 2 * (
+                1 + np.sin(2 * np.pi * x[1]) ** 2)
+
+
+def rastrigin(x):
+    return 10 * 2 + (x[0] ** 2 - 10 * np.cos(2 * np.pi * x[0])) + (x[1] ** 2 - 10 * np.cos(2 * np.pi * x[1]))
+
+
+def schaffer(x):
+    return 0.5 + (np.sin(x[0] ** 2 - x[1] ** 2) ** 2 - 0.5) / (1 + 0.001 * (x[0] ** 2 + x[1] ** 2)) ** 2
+
+def schwefel(x):
+    return 418.9829*2 - x[0]*np.sin(np.sqrt(abs(x[0]))) - x[1]*np.sin(np.sqrt(abs(x[1])))
 
 paraboloid_point_min = [0, 0]
 paraboloid_point_start = [10, 10]
@@ -69,6 +87,18 @@ holder_table_point_start = [-10, -10]
 levy_point_min = [1, 1]
 levy_point_start = [-10, -10]
 
+levy13_point_min = [1, 1]
+levy13_point_start = [-10, -10]
+
+rastrigin_point_min = [0, 0]
+rastrigin_point_start = [-5.12, -5.12]
+
+schaffer_point_min = [0, 0]
+schaffer_point_start = [-100, -100]
+
+schwefel_point_min = [420.9687, 420.9687]
+schwefel_point_start = [-500, -500]
+
 funcs = {'paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start],
          'Ackley function': [ackley, ackley_point_min, ackley_point_start],
          'Bukin function №6': [bukin, bukin_point_min, bukin_point_start],
@@ -77,4 +107,8 @@ funcs = {'paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start
          'Eggholder function': [eggholder, eggholder_point_min, eggholder_point_start],
          'Griewank function': [griewank, griewank_point_min, griewank_point_start],
          'Holder table function': [holder_table, holder_table_point_min, holder_table_point_start],
-         'Levy function': [levy, levy_point_min, levy_point_start]}
+         'Levy function': [levy, levy_point_min, levy_point_start],
+         'Levy №13 function': [levy13, levy13_point_min, levy13_point_start],
+         'Rastrigin function': [rastrigin, rastrigin_point_min, rastrigin_point_start],
+         'Schaffer function': [schaffer, schaffer_point_min, schaffer_point_start],
+         'Schwefel function': [schwefel, schwefel_point_min, schwefel_point_start],}
