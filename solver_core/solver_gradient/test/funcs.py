@@ -42,12 +42,12 @@ def levy(x):
     w1 = 1 + (x[0] - 1) / 4
     w2 = 1 + (x[1] - 1) / 4
     return np.sin(np.pi * w1) ** 2 + (w1 - 1) ** 2 * (1 + 10 * np.sin(np.pi * w1 + 1) ** 2) + (w2 - 1) ** 2 * (
-                1 + 10 * np.sin(2 * np.pi * w2) ** 2)
+            1 + 10 * np.sin(2 * np.pi * w2) ** 2)
 
 
 def levy13(x):
     return np.sin(3 * np.pi * x[0]) ** 2 + (x[0] - 1) ** 2 * (1 + np.sin(3 * np.pi * x[0]) ** 2) + (x[1] - 1) ** 2 * (
-                1 + np.sin(2 * np.pi * x[1]) ** 2)
+            1 + np.sin(2 * np.pi * x[1]) ** 2)
 
 
 def rastrigin(x):
@@ -57,11 +57,50 @@ def rastrigin(x):
 def schaffer(x):
     return 0.5 + (np.sin(x[0] ** 2 - x[1] ** 2) ** 2 - 0.5) / (1 + 0.001 * (x[0] ** 2 + x[1] ** 2)) ** 2
 
+
 def schwefel(x):
-    return 418.9829*2 - x[0]*np.sin(np.sqrt(abs(x[0]))) - x[1]*np.sin(np.sqrt(abs(x[1])))
+    return 418.9829 * 2 - x[0] * np.sin(np.sqrt(abs(x[0]))) - x[1] * np.sin(np.sqrt(abs(x[1])))
+
+
+def bocharevsky(x):
+    return x[0] ** 2 + 2 * x[1] ** 2 - 0.3 * np.cos(3 * np.pi * x[0]) - 0.4 * np.cos(4 * np.pi * x[1]) + 0.7
+
+
+def perm(x):
+    beta = 0.5
+    return ((1 + beta) * (x[0] ** 1 - 1 / (1) ** 1) + (2 + beta) * (x[1] ** 1 - 1 / (2) ** 1)) ** 2 + (
+            (1 + beta) * (x[0] ** 2 - 1 / (1) ** 2) + (2 + beta) * (x[1] ** 2 - 1 / (2) ** 2)) ** 2
+
+
+def diff_power(x):
+    return abs(x[0]) ** 2 + abs(x[1]) ** 3
+
+
+def trid(x):
+    return (x[0] - 1) ** 2 + (x[1] - 1) ** 2 - x[0] * x[1]
+
+
+def booth(x):
+    return (x[0] + 2 * x[1] - 7) ** 2 + (2 * x[0] + x[1] - 5) ** 2
+
+
+def matyas(x):
+    return 0.26(x[0] ** 2 + x[1] ** 2) - 0.48 * x[0] * x[1]
+
+
+def mccormick(x):
+    return np.sin(x[0] + x[1]) + (x[0] - x[1]) ** 2 - 1.5 * x[0] + 2.5 * x[1] + 1
+
+
+# def powersum(x):
+#    b = [8,18]
+#    return ((x[0]*x[1])-b[0])**2 + ((x[0]**2*x[1]**2)-b[1])**2
+
+def zakharov(x):
+    x[0] ** 2 + x[1] ** 2 + (0.5*1*x[0]+0.5*2*x[1])**2 + (0.5*1*x[0]+0.5*2*x[1])**4
 
 paraboloid_point_min = [0, 0]
-paraboloid_point_start = [10, 10]
+paraboloid_point_start = [-5.12, -5.12]
 
 ackley_point_min = [0, 0]
 ackley_point_start = [-32.768, -32.768]
@@ -99,7 +138,34 @@ schaffer_point_start = [-100, -100]
 schwefel_point_min = [420.9687, 420.9687]
 schwefel_point_start = [-500, -500]
 
-funcs = {'paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start],
+bocharevsky_point_min = [0, 0]
+bocharevsky_point_start = [-100, -100]
+
+perm_point_min = [0, 0.5]
+perm_point_start = [-2, -2]
+
+diff_power_point_min = [0, 0]
+diff_power_point_start = [-1, -1]
+
+trid_point_min = [2, 6]
+trid_point_start = [-4, -4]
+
+booth_point_min = [1, 3]
+booth_point_start = [-10, -10]
+
+matyas_point_min = [0, 0]
+matyas_point_start = [-10, -10]
+
+mccormick_point_min = [-0.54719, -1.54719]
+mccormick_point_start = [-1.5, -3]
+
+# powersum_point_min = [None, None]
+# powersum_point_start = [0, 0]
+
+zakharov_point_min = [0, 0]
+zakharov_point_start = [-5, -5]
+
+funcs = {'Paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start],
          'Ackley function': [ackley, ackley_point_min, ackley_point_start],
          'Bukin function №6': [bukin, bukin_point_min, bukin_point_start],
          'Cross-in-tray function': [cross_in_tray, cross_in_tray_point_min, cross_in_tray_point_start],
@@ -111,4 +177,13 @@ funcs = {'paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start
          'Levy №13 function': [levy13, levy13_point_min, levy13_point_start],
          'Rastrigin function': [rastrigin, rastrigin_point_min, rastrigin_point_start],
          'Schaffer function': [schaffer, schaffer_point_min, schaffer_point_start],
-         'Schwefel function': [schwefel, schwefel_point_min, schwefel_point_start],}
+         'Schwefel function': [schwefel, schwefel_point_min, schwefel_point_start],
+         'Bocharevsky function': [bocharevsky, bocharevsky_point_min, bocharevsky_point_start],
+         'Perm 0,d,beta function': [perm, perm_point_min, perm_point_start],
+         'Sum of different powers function': [diff_power, diff_power_point_min, diff_power_point_start],
+         'Trid function': [trid, trid_point_min, trid_point_start],
+         'Booth function': [booth, booth_point_min, booth_point_start],
+         'Matyas function': [matyas, matyas_point_min, matyas_point_start],
+         'Mccormick function': [mccormick, mccormick_point_min, mccormick_point_start],
+         # 'Power sum function': [powersum, powersum_point_min, powersum_point_start],
+         'Zakharov function': [zakharov, zakharov_point_min, zakharov_point_start]}
