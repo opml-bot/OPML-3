@@ -205,9 +205,10 @@ class SteepestGradient:
 
         else:
             code = 1
-        if self.draw_flag:
-            self.draw(data=draw_data)
         ans += f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i+1}'
+        if self.draw_flag:
+            fig = self.draw(data=draw_data)
+            return ans, fig
         return ans
 
     def one_dim_opt(self, eq):
@@ -309,7 +310,7 @@ class SteepestGradient:
         #                          colorscale='ice',
         #                          name='f(x, y)'),
         #               row=1, col=1)
-        fig.show()
+        return fig
 
     def prepare_surface(self, interval_x1, interval_x2, cnt_points):
         x_axis = np.linspace(interval_x1[0], interval_x1[1], cnt_points)
