@@ -164,21 +164,18 @@ class SteepestGradient:
     def solve(self):
         alpha = Symbol('alpha')
         new_x = self.started_point
-        try:
-            for i in range(self.max_iteration):
-                x_prev = new_x
-                gradient_xprev = self.gradient(x_prev)
-                if self.stop_criterion(gradient_xprev):
-                    code = 0
-                    break
-                steepest_step = x_prev - alpha*gradient_xprev
-                alpha_eq = self.function(steepest_step)
-                alpha_numeric = self.one_dim_opt(alpha_eq)
-                new_x = x_prev - alpha_numeric*gradient_xprev
-            else:
-                code = 1
-        except:
-            code = 2
+        for i in range(self.max_iteration):
+            x_prev = new_x
+            gradient_xprev = self.gradient(x_prev)
+            if self.stop_criterion(gradient_xprev):
+                code = 0
+                break
+            steepest_step = x_prev - alpha*gradient_xprev
+            alpha_eq = self.function(steepest_step)
+            alpha_numeric = self.one_dim_opt(alpha_eq)
+            new_x = x_prev - alpha_numeric*gradient_xprev
+        else:
+            code = 1
         ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}'
         return ans
 
