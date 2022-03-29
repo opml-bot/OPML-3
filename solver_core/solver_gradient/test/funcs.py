@@ -85,7 +85,7 @@ def booth(x):
 
 
 def matyas(x):
-    return 0.26*(x[0] ** 2 + x[1] ** 2) - 0.48 * x[0] * x[1]
+    return 0.26 * (x[0] ** 2 + x[1] ** 2) - 0.48 * x[0] * x[1]
 
 
 def mccormick(x):
@@ -107,11 +107,22 @@ def three_hump(x):
 def six_hump(x):
     return (4 - 2.1 * x[0] ** 2 + x[0] ** 4 / 3) * x[0] ** 2 + x[0] * x[1] + (-4 + 4 * x[1] ** 2) * x[1] ** 2
 
+
 def dixon_price(x):
-    return (x[0]-1)**2 + 2*(2*x[1]**2-x[0])**2
+    return (x[0] - 1) ** 2 + 2 * (2 * x[1] ** 2 - x[0]) ** 2
+
 
 def rosenbrock(x):
-    return 100*(x[1]-x[0]**2)**2 + (x[0]-1)**2
+    return 100 * (x[1] - x[0] ** 2) ** 2 + (x[0] - 1) ** 2
+
+
+def easom(x):
+    return -np.cos(x[0]) * np.cos(x[1]) * np.exp(-(x[0] - np.pi) ** 2 - (x[1] - np.pi) ** 2)
+
+def michalewicz(x):
+    m=10
+    return -(np.sin(x[0])*np.sin(x[0]**2/np.pi)**(2*m))-(np.sin(x[1])*np.sin(2*x[1]**2/np.pi)**(2*m))
+
 paraboloid_point_min = [0, 0]
 paraboloid_point_start = [-5.12, -5.12]
 
@@ -184,12 +195,17 @@ three_hump_point_start = [-5, -5]
 six_hump_point_min = [0.0898, -0.7126]
 six_hump_point_start = [-3, -2]
 
-dixon_price_point_min = [1, 2**(-0.5)]
+dixon_price_point_min = [1, 2 ** (-0.5)]
 dixon_price_point_start = [-10, -10]
 
 rosenbrock_point_min = [1, 1]
 rosenbrock_point_start = [-5, -5]
 
+easom_point_min = [np.pi, np.pi]
+easom_point_start = [-100, -100]
+
+michalewicz_point_min = [2.20, 1.57]
+michalewicz_point_start = [np.pi, np.pi]
 
 funcs = {'Paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start],
          'Ackley function': [ackley, ackley_point_min, ackley_point_start],
@@ -216,4 +232,6 @@ funcs = {'Paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start
          'Three-hump function': [three_hump, three_hump_point_min, three_hump_point_start],
          'Six-hump function': [six_hump, six_hump_point_min, six_hump_point_start],
          'Dixon-price function': [dixon_price, dixon_price_point_min, dixon_price_point_start],
-         'Rosenbrock function': [rosenbrock, rosenbrock_point_min, rosenbrock_point_start],}
+         'Rosenbrock function': [rosenbrock, rosenbrock_point_min, rosenbrock_point_start],
+         'Easom function': [easom, easom_point_min, easom_point_start],
+         'Michalewicz function': [michalewicz, michalewicz_point_min, michalewicz_point_start]}
