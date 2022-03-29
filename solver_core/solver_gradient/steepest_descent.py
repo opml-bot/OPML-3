@@ -1,8 +1,11 @@
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+
 from sympy import Symbol
 from sympy import lambdify
 from typing import Optional, Callable
-import numpy as np
-
+from plotly.subplots import make_subplots
 
 
 class Brandt:
@@ -152,7 +155,8 @@ class SteepestGradient:
                  max_iteration: Optional[int] = 500,
                  acc: Optional[float] = 10**-5,
                  print_midterm: Optional[bool] = False,
-                 save_iters_df: Optional[bool] = False):
+                 save_iters_df: Optional[bool] = False,
+                 draw: Optional[bool] = False):
         self.function = function
         self.gradient = gradient
         self.started_point = started_point
@@ -160,12 +164,33 @@ class SteepestGradient:
         self.acc = acc
         self.print_midterm = print_midterm
         self.save_iters_df = save_iters_df
+        self.draw = draw
 
     def solve(self):
+        ans = ''
+        if self.draw:
+            if self.started_point.shape[0] != 2:
+                self.draw = False # Может стоит бросать Error?
+            else:
+                draw_data = pd.DataFrame(columns=['x', 'y', 'z', 'iter', 'size'])
+        if self.save_iters_df:
+            iters_df = pd.DataFrame(columns=['f(x)', 'x'])
         alpha = Symbol('alpha')
         new_x = self.started_point
         for i in range(self.max_iteration):
             x_prev = new_x
+            if self.print_midterm:
+                f_x = self.function(new_x)
+                ans += f'iter{i:>5} f(x): {f_x:>.4f}\n'
+            if self.save_iters_df:
+                if not self.print_midterm:
+                    f_x = self.function(new_x)
+                iters_df = iters_df.append({'f(x)': f_x, 'x': new_x})
+            if self.draw:
+                if not self.print_midterm and self.save_iters_df:
+                    f_x = self.function(new_x)
+                draw_data = draw_data.append({'x': new_x[0], 'y': f_x, 'iter': i, 'size': 3})
+
             gradient_xprev = self.gradient(self.function, x_prev)
             if self.stop_criterion(gradient_xprev):
                 code = 0
@@ -174,11 +199,11 @@ class SteepestGradient:
             alpha_eq = self.function(steepest_step)
             alpha_numeric = self.one_dim_opt(alpha_eq)
             new_x = x_prev - alpha_numeric*gradient_xprev
+
         else:
             code = 1
-        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i+1}'
+        ans += f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i+1}'
         return ans
-
 
     def one_dim_opt(self, eq):
         """
@@ -220,11 +245,27 @@ class SteepestGradient:
         else:
             return False
 
+    def draw(self, data):
+        if data.shape[0] > 50:
+            step = data.shape[0]//50
+            data = data.iloc[:, ::step]
+
+        razm_x1 = data['x'].max() - data['x'].min()
+        interval_x1 = [data['x'].min() - 0.1*razm_x1, data['x'].max() + 0.1*razm_x1]
+        razm_x2 = data['x'].max() - data['x'].min()
+        interval_x2 = [data['y'].min() - 0.1*razm_x2, data['y'].max() + 0.1*razm_x2]
+        fig = make_subplots(rows=1, cols=1, specs=[[{'is_3d': True}]])
+        fig.add_trace(go.Surface(df))
+
+    def prepare_surface(self, interval_x1, interval_x2):
+        pass
+
+
 if __name__ == '__main__':
     func = lambda x: x[0]**2 + x[1]**2
     gradient = lambda z, x: np.array([2*x[0], 2*x[1]])
     point = [5, 5]
 
-    task = SteepestGradient(function=func, gradient=gradient, started_point=point)
+    task = SteepestGradient(function=func, gradient=gradient, started_point=point, print_midterm=1)
     answer = task.solve()
     print(answer)
