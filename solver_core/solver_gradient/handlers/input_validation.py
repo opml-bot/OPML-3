@@ -80,7 +80,12 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
     else:
         ans = []
         for i in range(len(g)):
-            ans.append(check_expression(g[i])[0])
+            checked = check_expression(g[i])
+            nvars_in_grad = int(max(checked[1], key=lambda x: int(x[1:]))[1:])
+            if nvars_in_grad > nvars:
+                raise ValueError('В градиенте больше переменных, чем в исходной функции')
+            ans.append(checked[0])
+
     grads = ";".join(ans)
     return grads
 
@@ -147,9 +152,27 @@ def check_point(point_str: str, splitter: Optional[str] = ';') -> str:
 
     coords = point_str.split(splitter)
     for i in range(len(coords)):
-        coords[i] = check_float(coords[i])
+        coords[i] = str(check_float(coords[i]))
     points = ';'.join(coords)
     return points
+
+
+def check_dimension(vars: list, started_point: str):
+    """
+    Проверяет, сходятся ли размерность функции с размерностью стартовой точкой, в случае если они не сошлись, кидает
+    ошибку.
+    Parameters
+    ----------
+    vars: list
+        Список перменных.
+
+    started_point: str
+        Строка с координатами стартовой точки.
+    """
+
+    coord = started_point.split(';')
+    if len(coord) != len(vars):
+        raise ValueError('Размерности введеной точки и функции не сходятся')
 
 
 if __name__ == '__main__':
