@@ -176,7 +176,7 @@ class SteepestGradient:
             new_x = x_prev - alpha_numeric*gradient_xprev
         else:
             code = 1
-        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}'
+        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i+1}'
         return ans
 
 
