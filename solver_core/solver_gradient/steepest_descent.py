@@ -1,5 +1,5 @@
 from sympy import Symbol
-
+from sympy import lambdify
 from typing import Optional, Callable
 import numpy as np
 
@@ -163,12 +163,65 @@ class SteepestGradient:
 
     def solve(self):
         alpha = Symbol('alpha')
-        x_prev = self.started_point
-        for i in range(self.max_iteration):
-            steepest_step = x_prev - alpha*self.gradient(x_prev)
-            alpha_eq = self.function(steepest_step)
-            alpha_numeric = alpha_eq
+        new_x = self.started_point
+        try:
+            for i in range(self.max_iteration):
+                x_prev = new_x
+                gradient_xprev = self.gradient(x_prev)
+                if self.stop_criterion(gradient_xprev):
+                    code = 0
+                    break
+                steepest_step = x_prev - alpha*gradient_xprev
+                alpha_eq = self.function(steepest_step)
+                alpha_numeric = self.one_dim_opt(alpha_eq)
+                new_x = x_prev - alpha_numeric*gradient_xprev
+            else:
+                code = 1
+        except:
+            code = 2
+        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}'
+        return ans
 
+
+    def one_dim_opt(self, eq):
+        """
+        Решает задачу одномерной оптимизации методом Брента.
+
+        Parameters
+        ----------
+        eq: sympy выражение
+            Задача, которую надо решить (с символом alpha)
+
+        Returns
+        -------
+        x: float
+            Точка минимума.
+        """
+
+        f = lambdify(['alpha'], eq)
+        task = Brandt(f, [0, 10**9]) # спорный момент: границы поиска минимума. Стоит уточнить.
+        x = task.solve()
+        return x
+
+    def stop_criterion(self, grad):
+        """
+        Метод проверяет критерий остановки. В качетсве критерия остановки используется длина градиента.
+
+        Parameters
+        ----------
+        grad: np.ndarray
+             Градиент в точке
+
+        Returns
+        -------
+        bool
+            True, если достигнута заданная точность, иначе - False
+        """
+        gradient_len = np.sqrt(sum([i**2 for i in grad]))
+        if gradient_len < self.acc:
+            return True
+        else:
+            return False
 
 if __name__ == '__main__':
     func = lambda x: x[0]**2 + x[1]**2
@@ -176,4 +229,5 @@ if __name__ == '__main__':
     point = [5, 5]
 
     task = SteepestGradient(function=func, gradient=gradient, started_point=point)
-    task.solve()
+    answer = task.solve()
+    print(answer)
