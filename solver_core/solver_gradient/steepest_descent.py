@@ -186,7 +186,7 @@ class SteepestGradient:
                 iters_df = iters_df.append({'f(x)': f_x, 'x': new_x}, ignore_index=True)
             # рисовалка
             if self.draw_flag:
-                if not self.print_midterm and self.save_iters_df:
+                if not self.print_midterm and not self.save_iters_df:
                     f_x = self.function(new_x)
                 draw_data = draw_data.append({'x': float(new_x[0]),
                                               'y': float(new_x[1]),
