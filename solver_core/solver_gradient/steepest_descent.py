@@ -166,7 +166,7 @@ class SteepestGradient:
         new_x = self.started_point
         for i in range(self.max_iteration):
             x_prev = new_x
-            gradient_xprev = self.gradient(x_prev)
+            gradient_xprev = self.gradient(self.function, x_prev)
             if self.stop_criterion(gradient_xprev):
                 code = 0
                 break
@@ -222,7 +222,7 @@ class SteepestGradient:
 
 if __name__ == '__main__':
     func = lambda x: x[0]**2 + x[1]**2
-    gradient = lambda x: np.array([2*x[0], 2*x[1]])
+    gradient = lambda z, x: np.array([2*x[0], 2*x[1]])
     point = [5, 5]
 
     task = SteepestGradient(function=func, gradient=gradient, started_point=point)
