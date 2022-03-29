@@ -127,6 +127,31 @@ def check_int(value: str) -> int:
     return value
 
 
+def check_point(point_str: str, splitter: Optional[str] = ';') -> str:
+    """
+    Функция проверяет корректность введеной точки x0.
+
+    Parameters
+    ----------
+    point_str: str
+         Координаты точки в виде строки.
+
+    splitter: Optional[str] = ';'
+        Разделитель, которым разделены координаты в строке.
+
+    Returns
+    -------
+     point: str
+        Строка с координатами точки, разделенные знаком ';'.
+    """
+
+    coords = point_str.split(splitter)
+    for i in range(len(coords)):
+        coords[i] = check_float(coords[i])
+    points = ';'.join(coords)
+    return points
+
+
 if __name__ == '__main__':
     func = '(x1-2)**2 + (x3 - 4)**2 + x4'
     grad = '2*(x1-2);0; 2*(x3 - 4); 1'

@@ -141,8 +141,30 @@ def prepare_gradient(s: str, variables: list) -> Callable:
 
         grad = np.array(grad)
         return grad
-    return gradient()
+    return gradient
 
+
+def prepare_point(pont_str: str) -> np.ndarray:
+    """
+    Преобразует точку из записи в строчном виде, с координатами разделенными точкой с запятой, в массив NumPy.
+
+    Parameters
+    ----------
+    pont_str: str
+        Строка с координатами точки, разделитель - ';'
+
+    Returns
+    -------
+    point: np.ndarray
+        Массив с координатами точки.
+    """
+
+    coords = pont_str.split(';')
+    point = []
+    for i in range(len(coords)):
+        point.append(float(coords[i]))
+    point = np.array(point)
+    return point
 
 
 if __name__ == '__main__':
@@ -152,7 +174,9 @@ if __name__ == '__main__':
     print(grads)
     xs = get_variables(func)
     f = prepare_func(func, xs)
-    point = [2 for i in range(len(xs))]
+    point = ['2' for i in range(len(xs))]
+    point = ';'.join(point)
+    point = prepare_point(point)
     grads = prepare_gradient(grads, xs)
     print(grads(f, point))
     print(f(point))
