@@ -321,7 +321,7 @@ class SteepestGradient:
 
         for x_i in x_axis:
             for y_i in y_axis:
-                f = func([x_i, y_i])
+                f = self.function([x_i, y_i])
                 if np.isfinite(f):
                     points.loc[x_i, y_i] = f
                 else:
