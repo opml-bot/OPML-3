@@ -2,7 +2,7 @@ from typing import Optional, Callable
 import numpy as np
 
 
-class GradientDescentConst:
+class GradientDescentFrac:
 
     def __init__(self,
                  function: Callable,
