@@ -2,7 +2,7 @@ from typing import Optional, Callable
 import numpy as np
 
 
-class GradientDescentConst:
+class GradientDescentFrac:
 
     def __init__(self,
                  function: Callable,
@@ -78,6 +78,6 @@ if __name__ == '__main__':
     gradient = lambda z, x: np.array([2 * x[0], 2 * x[1]])
     point = [5, 5]
 
-    task = GradientDescentConst(function=func, gradient=gradient, started_point=point)
+    task = GradientDescentFrac(function=func, gradient=gradient, started_point=point)
     answer = task.solve()
     print(answer)
