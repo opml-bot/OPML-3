@@ -95,7 +95,6 @@ def prepare_gradient(s: str, variables: list) -> Callable:
     gra = []
     if s:
         if s != 'False':
-            print('Градиент получен')
             grads = s.split(';')
             for func in grads:
                 k = prepare_func(func=func, variables=variables)
@@ -106,7 +105,6 @@ def prepare_gradient(s: str, variables: list) -> Callable:
                     ans.append(gra[i](x0))
                 return np.array(ans)
             return gradient
-    print('Градиент считается')
     def gradient(function: Callable,
                  x0: np.ndarray,
                  delta_x=1e-8) -> np.ndarray:
