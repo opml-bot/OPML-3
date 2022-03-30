@@ -227,7 +227,7 @@ class SteepestGradient:
         """
 
         f = lambdify(['alpha'], eq)
-        task = Brandt(f, [0, 10**6]) # спорный момент: границы поиска минимума. Стоит уточнить.
+        task = Brandt(f, [0, 1]) # спорный момент: границы поиска минимума. Стоит уточнить.
         x = task.solve()
         return x
 
