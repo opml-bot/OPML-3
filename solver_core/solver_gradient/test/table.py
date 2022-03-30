@@ -13,6 +13,7 @@ for k, names in enumerate(funcs.keys()):
     xs = list(sp.symbols('x1 x2'))
     point = prepare_point(funcs[names][2])
     df.loc[k] = [f'{names}', f'x = ({funcs[names][2]})',\
-             f"{GradientDescentConst(funcs[names][0], prepare_gradient('', xs), point).solve()}", f'', f'', f'',\
-             f'{minimize(funcs[names][0], point)}', f'{funcs[names][1]}']
-print(df)
+             GradientDescentConst(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0], f'', f'', f'',\
+             f'x = {minimize(funcs[names][0], point).x}', f'{funcs[names][1]}']
+# print(df)
+print(df.to_latex(index=False))
