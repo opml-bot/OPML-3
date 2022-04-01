@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 
 from sympy import Symbol
 from sympy import lambdify
 from typing import Optional, Callable
-from plotly.subplots import make_subplots
 
 
 class Brandt:
