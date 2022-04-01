@@ -1,4 +1,5 @@
 import numpy as np
+import sympy as sp
 
 
 def paraboloid(x):
@@ -9,8 +10,8 @@ def ackley(x):
     a = 20
     b = 0.2
     c = 2 * np.pi
-    return -a * np.exp(-b * np.sqrt(1 / 2 * (x[0] ** 2 + x[1] ** 2))) - np.exp(
-        1 / 2 * (np.cos(c * x[0]) + np.cos(c * x[1]))) + a + np.exp(1)
+    return -a * sp.exp(-b * sp.sqrt(1 / 2 * (x[0] ** 2 + x[1] ** 2))) - sp.exp(
+        1 / 2 * (sp.cos(c * x[0]) + sp.cos(c * x[1]))) + a + sp.exp(1)
 
 
 def bukin(x):
