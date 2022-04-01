@@ -103,6 +103,11 @@ def check_float(value: str) -> float:
     float
         значение переведенное из строки в float
     """
+    if value.find('—') != -1:
+        value = value.replace('—', '-')
+
+    if value.find('–') != -1:
+        value = value.replace('–', '-')
     if value.find('^') != -1:
         value = value.replace('^', '**')
     checker = compile(value, '<string>', 'eval')  # Может выдать SyntaxError, если выражение некорректно
@@ -152,7 +157,7 @@ def check_point(point_str: str, splitter: Optional[str] = ';') -> str:
 
     coords = point_str.split(splitter)
     for i in range(len(coords)):
-        coords[i] = str(check_float(coords[i]))
+        coords[i] = str(check_float(coords[i].strip()))
     points = ';'.join(coords)
     return points
 
