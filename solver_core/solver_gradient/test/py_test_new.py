@@ -1,12 +1,12 @@
 import pytest
 from funcs import funcs
+from funcs_str import funcs_str
 import numpy as np
 from solver_core.solver_gradient.gradient_descent_const import GradientDescentConst
 from solver_core.solver_gradient.gradient_descent_frac import GradientDescentFrac
-from solver_core.solver_gradient.handlers.preprocessing import prepare_gradient
-from solver_core.solver_gradient.handlers.preprocessing import prepare_point
+from solver_core.solver_gradient.handlers.preprocessing import *
+from solver_core.solver_gradient.handlers.input_validation import *
 import sympy as sp
-
 from solver_core.solver_gradient.steepest_descent import SteepestGradient
 
 EPS = 0.0001
@@ -31,14 +31,30 @@ def test_graient_frac():
             map(float, GradientDescentFrac(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0][
                        4:-1].split()))) - np.array(funcs[names][1]))) < EPS
         assert flag_OK
+
+def prepare_all(func, min_val, point):
+    func = func(0,0)
+    s, vars = check_expression(func)
+    grad = check_gradients('', vars)
+    point = check_point(point)
+    check_dimension(vars, point)
+
+    vars = get_variables(s)
+    func = prepare_func(s, vars)
+    grads = prepare_gradient(grad, vars)
+    point = prepare_point(point)
+    min_val = prepare_point(check_point(min_val))
+    return [func, grads, point], min_val
+
+
 def test_graient_steepest():
-    for names in funcs.keys():
+    for names in funcs_str.keys():
         print(names)
-        xs = list(sp.symbols('x1 x2'))
-        point = prepare_point(funcs[names][2])
+        a = prepare_all(*funcs_str[names])
+        print(a)
         flag_OK = sum(abs(np.array(list(
-            map(float, SteepestGradient(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0][
-                       4:-1].split()))) - np.array(funcs[names][1]))) < EPS
+            map(float, SteepestGradient(a[0], a[1], a[2]).solve().split('\n')[0][
+                       4:-1].split()))) - np.array(a[3])) < EPS
         assert flag_OK
 # for names in funcs.keys():
 #     xs = list(sp.symbols('x1 x2'))
