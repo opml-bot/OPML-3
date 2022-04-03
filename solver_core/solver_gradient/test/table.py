@@ -31,6 +31,8 @@ df = pd.DataFrame(
 for k, names in enumerate(funcs.keys()):
     xs = list(sp.symbols('x1 x2'))
     point = prepare_point(funcs[names][2])
+    a = prepare_all(*funcs[i])
+
     df.loc[k] = [f'{names}', f'x = ({funcs[names][2]})', \
                  GradientDescentConst(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0],
                  GradientDescentFrac(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0],
