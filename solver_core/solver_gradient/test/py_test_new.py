@@ -49,13 +49,15 @@ def prepare_all(func, min_val, point):
 
 
 def test_gradient_steepest():
+    import math
+
     for names in funcs_str.keys():
         print(names)
         a = prepare_all(*funcs_str[names])
         print(a)
         flag_OK = sum(abs(np.array(list(
-            map(float, SteepestGradient(a[0], a[1], a[2]).solve().split('\n')[0][
-                       4:-1].split()))) - np.array(a[3]))) < EPS
+            map(float, SteepestGradient(a[0][0], a[0][1], a[0][2]).solve().split('\n')[0][
+                       4:-1].split()))) - np.array(a[1]))) < EPS
         assert flag_OK
 # for names in funcs.keys():
 #     xs = list(sp.symbols('x1 x2'))

@@ -127,7 +127,7 @@ def prepare_gradient(s: str, variables: list) -> Callable:
         grad: np.ndarray
             Значения градиента в точке x0
         """
-
+        import math
         grad = []
         for i in range(len(x0)):
             delta_x_vec_plus = x0.copy()
