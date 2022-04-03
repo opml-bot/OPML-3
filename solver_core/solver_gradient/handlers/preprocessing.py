@@ -1,5 +1,7 @@
 import numpy as np
+import math
 
+from math import sqrt
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import sympify, exp, Symbol, lambdify
 from sympy.utilities.lambdify import lambdastr
@@ -33,9 +35,10 @@ def prepare_func(func: str, variables: list) -> Callable:
     for i in vars_in_func:
         i = str(i)
         func = func.replace(i, dict_for_channge[i])
+    print(func)
     func = 'f=' + func
     d = {}
-    exec(func, d)
+    exec(func, {'math': math, 'sqrt': sqrt}, d)
     return d['f']
 
 
@@ -99,12 +102,15 @@ def prepare_gradient(s: str, variables: list) -> Callable:
             for func in grads:
                 k = prepare_func(func=func, variables=variables)
                 gra.append(k)
+
             def gradient(function: Callable, x0: np.ndarray, delta_x=1e-8) -> np.ndarray:
                 ans = []
                 for i in range(len(gra)):
                     ans.append(gra[i](x0))
                 return np.array(ans)
+
             return gradient
+
     def gradient(function: Callable,
                  x0: np.ndarray,
                  delta_x=1e-8) -> np.ndarray:
@@ -127,7 +133,7 @@ def prepare_gradient(s: str, variables: list) -> Callable:
         grad: np.ndarray
             Значения градиента в точке x0
         """
-        import math
+
         grad = []
         for i in range(len(x0)):
             delta_x_vec_plus = x0.copy()
@@ -139,6 +145,7 @@ def prepare_gradient(s: str, variables: list) -> Callable:
 
         grad = np.array(grad)
         return grad
+
     return gradient
 
 

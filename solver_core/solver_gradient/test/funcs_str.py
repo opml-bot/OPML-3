@@ -6,8 +6,8 @@ def ackley(x1, x2):
     return f"- 20* exp(- 0.2* sqrt(1 / 2 * (x1 ** 2 + x2 ** 2))) - exp(1 / 2 * (cos( 2 * pi* x1) + cos( 2 * pi* x2))) +  20+ exp(1)"
 
 
-def bukin(x1, x2):
-    return f"100 * sqrt(abs(x2 - 0.01 * x1 ** 2)) + 0.01 * abs(x1 + 10)"
+def bukin(x1, x2):    return f"100 * sqrt(abs(x2 - 0.01 * x1 ** 2)) + 0.01 * abs(x1 + 10)"
+
 
 
 def cross_in_tray(x1, x2):
@@ -191,7 +191,7 @@ michalewicz_point_min = "2.20; 1.57"
 michalewicz_point_start = "pi; pi"
 
 funcs_str = {'Paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start],
-             'Ackley function': [ackley, ackley_point_min, ackley_point_start],
+             #'Ackley function': [ackley, ackley_point_min, ackley_point_start],
              'Bukin function №6': [bukin, bukin_point_min, bukin_point_start],
              'Cross-in-tray function': [cross_in_tray, cross_in_tray_point_min, cross_in_tray_point_start],
              'Drop-wave function': [drop_wave, drop_wave_point_min, drop_wave_point_start],

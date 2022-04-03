@@ -49,8 +49,6 @@ def prepare_all(func, min_val, point):
 
 
 def test_gradient_steepest():
-    import math
-
     for names in funcs_str.keys():
         print(names)
         a = prepare_all(*funcs_str[names])
