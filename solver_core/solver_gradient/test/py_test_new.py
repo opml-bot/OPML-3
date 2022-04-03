@@ -1,6 +1,4 @@
 import pytest
-from funcs import funcs
-from funcs_str import funcs_str
 import numpy as np
 from solver_core.solver_gradient.gradient_descent_const import GradientDescentConst
 from solver_core.solver_gradient.gradient_descent_frac import GradientDescentFrac
@@ -8,12 +6,14 @@ from solver_core.solver_gradient.handlers.preprocessing import *
 from solver_core.solver_gradient.handlers.input_validation import *
 import sympy as sp
 from solver_core.solver_gradient.steepest_descent import SteepestGradient
+from solver_core.solver_gradient.test.funcs import funcs
+from solver_core.solver_gradient.test.funcs_str import funcs_str
 
-EPS = 0.0001
+EPS: float = 0.0001
 
 
 # @pytest.mark.skipif(sys.version_info < (3,3),reason="requires python3.3")
-def test_graient_const():
+def test_gradient_const():
     for names in funcs.keys():
         print(names)
         xs = list(sp.symbols('x1 x2'))
@@ -22,7 +22,8 @@ def test_graient_const():
             map(float, GradientDescentConst(funcs[names][0], prepare_gradient('', xs), point).solve().split('\n')[0][
                        4:-1].split()))) - np.array(funcs[names][1]))) < EPS
         assert flag_OK
-def test_graient_frac():
+
+def test_gradient_frac():
     for names in funcs.keys():
         print(names)
         xs = list(sp.symbols('x1 x2'))
@@ -47,14 +48,14 @@ def prepare_all(func, min_val, point):
     return [func, grads, point], min_val
 
 
-def test_graient_steepest():
+def test_gradient_steepest():
     for names in funcs_str.keys():
         print(names)
         a = prepare_all(*funcs_str[names])
         print(a)
         flag_OK = sum(abs(np.array(list(
             map(float, SteepestGradient(a[0], a[1], a[2]).solve().split('\n')[0][
-                       4:-1].split()))) - np.array(a[3])) < EPS
+                       4:-1].split()))) - np.array(a[3]))) < EPS
         assert flag_OK
 # for names in funcs.keys():
 #     xs = list(sp.symbols('x1 x2'))
