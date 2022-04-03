@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from math import sqrt
+from math import sqrt, exp
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import sympify, exp, Symbol, lambdify
 from sympy.utilities.lambdify import lambdastr
@@ -37,7 +37,7 @@ def prepare_func(func: str, variables: list) -> Callable:
         func = func.replace(i, dict_for_channge[i])
     func = 'f=' + func
     d = {}
-    exec(func, {'math': math, 'sqrt': sqrt}, d)
+    exec(func, {'math': math, 'sqrt': sqrt, 'exp': exp}, d)
     return d['f']
 
 
@@ -171,12 +171,10 @@ if __name__ == '__main__':
     func = 'x2**2 + x7 + x9 - 3'
     grads = ['0', '2*x2', '0', '0', '0', '0', '1', '0', '1']
     grads = ";".join(grads)
-    print(grads)
     xs = get_variables(func)
     f = prepare_func(func, xs)
     point = ['2' for i in range(len(xs))]
     point = ';'.join(point)
     point = prepare_point(point)
     grads = prepare_gradient(grads, xs)
-    print(grads(f, point))
-    print(f(point))
+    c = prepare_func(f"- 20* exp(- 0.2* sqrt(1 / 2 * (x1 ** 2 + x2 ** 2))) - exp(1 / 2 * (cos( 2 * pi* x1) + cos( 2 * pi* x2))) +  20+ exp(1)", xs)
