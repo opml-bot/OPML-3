@@ -97,7 +97,7 @@ def set_grad():
             params['gradient'] = a
             text.layout.display = 'none'
             message.layout.display = 'none'
-            print('point')
+            print('point ')
 
     text.on_submit(callback)
     display(message)
