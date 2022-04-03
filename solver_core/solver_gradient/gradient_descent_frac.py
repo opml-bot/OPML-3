@@ -1,5 +1,8 @@
 from typing import Optional, Callable
+from math import sqrt, exp
 import numpy as np
+import math
+
 
 
 class GradientDescentFrac:

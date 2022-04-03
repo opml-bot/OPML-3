@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import math
 
+from math import sqrt, exp
 from sympy import lambdify
 from typing import Optional, Callable
 from math import sqrt

@@ -1,6 +1,8 @@
 from typing import Optional, Callable
+from math import sqrt, exp
 import numpy as np
 import pandas as pd
+import math
 
 
 class GradientDescentConst:
