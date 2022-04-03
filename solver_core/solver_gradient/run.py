@@ -40,7 +40,7 @@ def choose_method():
     display(dropdown1)
 
 def set_func():
-    text = HTMLMath(
+    message = HTMLMath(
         value=INPUT_FUNCTION
     )
     text = Text(value=' ',
@@ -62,5 +62,5 @@ def set_func():
         set_grad()
 
     text.on_submit(callback)
-    display(message_func)
+    display(message)
     display(text)
