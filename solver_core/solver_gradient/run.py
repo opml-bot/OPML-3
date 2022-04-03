@@ -80,7 +80,7 @@ def set_grad():
     )
     text = Text(value=' ',
                 placeholder='Впиши функцию!',
-                description='Функция:',
+                description='Градиент:',
                 layout=Layout(width='80%', height='80px'),
                 disabled=False)
     def callback(wdgt):
