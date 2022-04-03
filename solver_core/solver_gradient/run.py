@@ -99,6 +99,8 @@ def set_grad():
             message.layout.display = 'none'
             if len(variables) < 4:
                 set_point_low()
+            else:
+                set_point_high()
 
     text.on_submit(callback)
     display(message)
