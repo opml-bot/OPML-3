@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
+import math
 
-from sympy import Symbol
 from sympy import lambdify
 from typing import Optional, Callable
-from plotly.subplots import make_subplots
+from math import sqrt
 
 
 class Brandt:
@@ -163,7 +162,6 @@ class SteepestGradient:
 
     def solve(self):
         ans = ''
-        alpha = Symbol('alpha')
         new_x = self.started_point
         if self.save_iters_df:
             self.history.loc[0] = [np.array(new_x), self.function(new_x), 0]
@@ -183,9 +181,12 @@ class SteepestGradient:
             if self.stop_criterion(gradient_xprev):
                 code = 0
                 break
-            steepest_step = x_prev - alpha*gradient_xprev
-            alpha_eq = self.function(steepest_step)
-            alpha_numeric = self.one_dim_opt(alpha_eq)
+            def to_optim(lamb):
+                return self.function(-lamb*gradient_xprev + x_prev)
+
+            alpha_numeric = Brandt(to_optim, [0, 1]).solve()
+            alpha_num = Brandt(to_optim, [0, 1]).solve()
+
             new_x = x_prev - alpha_numeric*gradient_xprev
 
         else:
@@ -239,6 +240,9 @@ if __name__ == '__main__':
     gradient = lambda z, x: np.array([2*(x[0]-50), 2*x[1]])
     point = np.array([5, 5])
 
-    task = SteepestGradient(function=func, gradient=gradient, started_point=point, print_midterm=1, max_iteration=5)
+    f = lambda x: (-math.exp(
+        (1 / 2) * math.cos(2 * math.pi * x[0]) + (1 / 2) * math.cos(2 * math.pi * x[1])) + math.e + 20 - 20 * math.exp(
+        -0.2 * sqrt((1 / 2) * x[0] ** 2 + (1 / 2) * x[1] ** 2)))
+    task = SteepestGradient(function=f, gradient=gradient, started_point=point, print_midterm=1, max_iteration=100)
     answer = task.solve()
-    print(answer)
+    print(f([1, 1]))
