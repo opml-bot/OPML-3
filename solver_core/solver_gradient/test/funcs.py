@@ -213,7 +213,7 @@ funcs = {'Paraboloid': [paraboloid, paraboloid_point_min, paraboloid_point_start
          'Drop-wave function': [drop_wave, drop_wave_point_min, drop_wave_point_start],
          'Eggholder function': [eggholder, eggholder_point_min, eggholder_point_start],
          'Griewank function': [griewank, griewank_point_min, griewank_point_start],
-         'Holder table function': [holder_table, holder_table_point_min, holder_table_point_start],
+         #'Holder table function': [holder_table, holder_table_point_min, holder_table_point_start],
          'Levy function': [levy, levy_point_min, levy_point_start],
          'Levy №13 function': [levy13, levy13_point_min, levy13_point_start],
          'Rastrigin function': [rastrigin, rastrigin_point_min, rastrigin_point_start],

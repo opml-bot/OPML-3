@@ -1,5 +1,5 @@
 import re
-import math
+from  math import e,pi
 from typing import Optional
 import sympy as sp
 from sympy import symbols, sympify
@@ -84,7 +84,7 @@ def check_expression(expression: str, variables: str) -> str:
             raise NameError(f"The use of '{name}' is not allowed")
 
     x, y = symbols(f'{variables[0]} {variables[1]}')
-    d = {variables[0]: x, variables[1]: y, 'e': math.e, 'pi': math.pi}
+    d = {variables[0]: x, variables[1]: y, 'e': e, 'pi': pi}
     function = sympify(expression, d, convert_xor=True)
     return str(function)
 
@@ -174,7 +174,7 @@ def check_restr_func(expression: str, variables: str) -> str:
         raise ValueError('Ограничивающая функция не содержит ни одной переменной')
 
     x, y = symbols(f'{variables[0]} {variables[1]}', real=True)
-    d = {variables[0]: x, variables[1]: y, 'e': math.e, 'pi': math.pi}
+    d = {variables[0]: x, variables[1]: y, 'e': e, 'pi': pi}
     function = sympify(expression, d, convert_xor=True)
     if not sp.solve(function, [x, y]):
         raise ValueError('Неверный ввод ограничивающей функции')
