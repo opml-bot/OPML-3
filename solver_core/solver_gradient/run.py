@@ -33,5 +33,5 @@ def choose_method():
     display(text)
     display(dropdown1)
 
-def set_func()
-    pass
+def set_func():
+    print('MISWORKING!!!')
