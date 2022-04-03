@@ -17,6 +17,7 @@ from .messages import *
 params = {}
 variables = 0
 
+
 def choose_method():
     text = HTMLMath(
         value=HELLO_TEXT
@@ -39,6 +40,7 @@ def choose_method():
     dropdown1.observe(on_button_clicked, names='value')
     display(text)
     display(dropdown1)
+
 
 def set_func():
     message = HTMLMath(
@@ -66,6 +68,36 @@ def set_func():
             text.layout.display = 'none'
             message.layout.display = 'none'
             print('GRAD')
+
+    text.on_submit(callback)
+    display(message)
+    display(text)
+
+
+def set_grad():
+    message = HTMLMath(
+        value=INPUT_FUNCTION
+    )
+    text = Text(value=' ',
+                placeholder='Впиши функцию!',
+                description='Функция:',
+                layout=Layout(width='80%', height='80px'),
+                disabled=False)
+    def callback(wdgt):
+        global params
+        global variables
+        try:
+            a = wdgt.value.strip()
+            a = check_gradients(a, variables)
+        except SyntaxError as err:
+            print(err)
+        except NameError as err:
+            print(err)
+        else:
+            params['gradient'] = a
+            text.layout.display = 'none'
+            message.layout.display = 'none'
+            print('point')
 
     text.on_submit(callback)
     display(message)
