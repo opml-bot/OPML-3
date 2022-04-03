@@ -67,7 +67,7 @@ def set_func():
             variables = a[1]
             text.layout.display = 'none'
             message.layout.display = 'none'
-            print('GRAD')
+            set_grad()
 
     text.on_submit(callback)
     display(message)
