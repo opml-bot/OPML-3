@@ -1,10 +1,10 @@
 from IPython.display import display
 from ipywidgets import Dropdown, Textarea, Layout, Button, Text, HTMLMath,IntSlider, FloatText
 
-from solver_core.solver_gradient.gradient_descent_const import GradientDescentConst
-from solver_core.solver_gradient.gradient_descent_frac import GradientDescentFrac
-from solver_core.solver_gradient.steepest_descent import SteepestGradient
-from solver_core.solver_gradient.handlers.input_validation import *
+from gradient_descent_const import GradientDescentConst
+from gradient_descent_frac import GradientDescentFrac
+from steepest_descent import SteepestGradient
+#from solver_core.solver_gradient.handlers.input_validation import *
 from messages import *
 
 
