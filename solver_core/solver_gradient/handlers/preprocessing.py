@@ -2,9 +2,10 @@ import numpy as np
 import math
 
 from math import sqrt
-from sympy import sympify, Symbol
+from sympy.parsing.sympy_parser import parse_expr
+from sympy import sympify, exp, Symbol, lambdify
 from sympy.utilities.lambdify import lambdastr
-from typing import Callable
+from typing import Optional, Callable
 
 
 def prepare_func(func: str, variables: list) -> Callable:
