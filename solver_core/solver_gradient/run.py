@@ -76,7 +76,7 @@ def set_func():
 
 def set_grad():
     message = HTMLMath(
-        value=INPUT_FUNCTION
+        value=INPUT_GRADIENT
     )
     text = Text(value=' ',
                 placeholder='Впиши функцию!',
@@ -111,13 +111,27 @@ def set_point_low():
     )
     floats = []
     for i in range(len(variables)):
-        floats.append(FloatText(value=None, description=f'x{i+1}:', disabled=False))
+        floats.append(Text(value=None, description=f'x{i+1}:', disabled=False))
     confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
 
     def callback(wdgt):
         global params
-        print('adasdasds')
-
+        s = []
+        for i in range(len(floats)):
+            floats[i].layout.display = 'none'
+            s.append(floats[i].value)
+        s = ';'.join(s)
+        try:
+            a = check_point(s)
+        except ValueError as err:
+            print(err)
+        try:
+            check_dimension(variables, a)
+        except:
+            print('Все плохо, перезапусти ячейку(')
+        confirm.layout.display = 'none'
+        params['point'] = a
+        print('YEp')
     confirm.on_click(callback)
     display(message)
     display(confirm, *floats)
