@@ -34,6 +34,7 @@ def prepare_func(func: str, variables: list) -> Callable:
         i = str(i)
         func = func.replace(i, dict_for_channge[i])
     func = 'f=' + func
+    print(f)
     d = {}
     exec(func, d)
     return d['f']
