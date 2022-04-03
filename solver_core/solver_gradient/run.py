@@ -15,6 +15,7 @@ from .messages import *
 
 
 params = {}
+variables = 0
 
 def choose_method():
     text = HTMLMath(
@@ -51,15 +52,20 @@ def set_func():
 
     def callback(wdgt):
         global params
+        global variables
         try:
             a = wdgt.value
-            check_expression(a)
-        except:
-            pass
-        params['function'] = wdgt.value
-        text.layout.display = 'none'
-        message_func.layout.display = 'none'
-        set_grad()
+            a = check_expression(a)
+        except SyntaxError as err:
+            print(err)
+        except NameError as err:
+            print(err)
+        else:
+            params['function'] = a[0]
+            variables = a[1]
+            text.layout.display = 'none'
+            message.layout.display = 'none'
+            print('GRAD')
 
     text.on_submit(callback)
     display(message)
