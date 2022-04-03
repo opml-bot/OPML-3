@@ -111,7 +111,7 @@ def set_point_low():
     )
     floats = []
     for i in range(len(variables)):
-        floats.append(Text(value=None, description=f'x{i+1}:', disabled=False))
+        floats.append(Text(value=0, description=f'x{i+1}:', disabled=False))
     confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
 
     def callback(wdgt):
