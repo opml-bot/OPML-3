@@ -24,5 +24,6 @@ def prepare_all(func, min_val, point):
 for i in funcs:
     print(i)
     a = prepare_all(*funcs[i])
-    task = GradientDescentConst(function=a[0][0], gradient=a[0][1], started_point=a[0][2])
+    print(a)
+    task = SteepestGradient(function=a[0][0], gradient=a[0][1], started_point=a[0][2])
     print(task.solve())
