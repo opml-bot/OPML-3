@@ -130,8 +130,34 @@ def set_point_low():
         except:
             print('Все плохо, перезапусти ячейку(')
         confirm.layout.display = 'none'
+        message.layout.display = 'none'
         params['point'] = a
-        print('YEp')
+
     confirm.on_click(callback)
     display(message)
     display(confirm, *floats)
+
+
+def set_point_high():
+    message = HTMLMath(
+        value=INPUT_POINT
+    )
+    text = Text(value=None, description=f'Координаты', disabled=False)
+
+    def callback(wdgt):
+        global params
+        try:
+            a = check_point(text.value.strip())
+        except ValueError as err:
+            print(err)
+        try:
+            check_dimension(variables, a)
+        except:
+            print('Все плохо, перезапусти ячейку(')
+        message.layout.display = 'none'
+        text.layout.display = 'none'
+        params['point'] = a
+
+    text.on_submit(callback)
+    display(message)
+    display(text)
