@@ -97,8 +97,27 @@ def set_grad():
             params['gradient'] = a
             text.layout.display = 'none'
             message.layout.display = 'none'
-            print('point ')
+            if len(variables) < 4:
+                set_point_low()
 
     text.on_submit(callback)
     display(message)
     display(text)
+
+
+def set_point_low():
+    message = HTMLMath(
+        value=INPUT_POINT_LESS_TNEN_3
+    )
+    floats = []
+    for i in range(len(variables)):
+        floats.append(FloatText(value=None, description=f'x{i+1}:', disabled=False))
+    confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
+
+    def callback(wdgt):
+        global params
+        print('adasdasds')
+
+    confirm.on_click(callback)
+    display(message)
+    display(confirm, *floats)
