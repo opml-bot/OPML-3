@@ -243,6 +243,6 @@ if __name__ == '__main__':
     f = lambda x: (-math.exp(
         (1 / 2) * math.cos(2 * math.pi * x[0]) + (1 / 2) * math.cos(2 * math.pi * x[1])) + math.e + 20 - 20 * math.exp(
         -0.2 * sqrt((1 / 2) * x[0] ** 2 + (1 / 2) * x[1] ** 2)))
-    task = SteepestGradient(function=f, gradient=gradient, started_point=point, print_midterm=1, max_iteration=100)
+    task = SteepestGradient(function=func, gradient=gradient, started_point=point, print_midterm=1, max_iteration=10000)
     answer = task.solve()
-    print(f([1, 1]))
+    print(answer)
