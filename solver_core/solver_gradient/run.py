@@ -54,7 +54,7 @@ def set_func():
         global params
         global variables
         try:
-            a = wdgt.value
+            a = wdgt.value.strip()
             a = check_expression(a)
         except SyntaxError as err:
             print(err)
