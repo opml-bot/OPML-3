@@ -1,5 +1,7 @@
 import numpy as np
+import math
 
+from math import sqrt
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import sympify, exp, Symbol, lambdify
 from sympy.utilities.lambdify import lambdastr
@@ -35,7 +37,7 @@ def prepare_func(func: str, variables: list) -> Callable:
         func = func.replace(i, dict_for_channge[i])
     func = 'f=' + func
     d = {}
-    exec(func, d)
+    exec(func, {'math': math, 'sqrt': sqrt}, d)
     return d['f']
 
 
