@@ -19,7 +19,7 @@ def choose_method():
                  ('Градиент с дроблением шага', GradientDescentFrac),
                  ('Наискорейший спуск', SteepestGradient)],
         value=None,  # Выбор по умолчанию
-        layout=Layout(width='80%', height='80px'),
+        layout=Layout(width='50%', height='20px'),
         description='Метод:')
 
     def on_button_clicked(b):
