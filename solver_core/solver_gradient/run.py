@@ -1,5 +1,5 @@
 from IPython.display import display
-from ipywidgets import Dropdown, Textarea, Layout, Button, Text, HTMLMath,IntSlider, FloatText
+from ipywidgets import Dropdown, Textarea, Layout, Button, Text, HTMLMath,IntSlider, FloatText, IntText, Checkbox
 
 from .handlers.input_validation import *
 from .gradient_descent_const import GradientDescentConst
@@ -134,6 +134,7 @@ def set_point_low():
         confirm.layout.display = 'none'
         message.layout.display = 'none'
         params['point'] = a
+        print(params)
 
     confirm.on_click(callback)
     display(message)
@@ -144,7 +145,7 @@ def set_point_high():
     message = HTMLMath(
         value=INPUT_POINT
     )
-    text = Text(value=None, description=f'Координаты', disabled=False)
+    text = Text(value=None, description=f' ', disabled=False)
 
     def callback(wdgt):
         global params
@@ -160,6 +161,50 @@ def set_point_high():
         text.layout.display = 'none'
         params['point'] = a
 
+
     text.on_submit(callback)
     display(message)
     display(text)
+
+
+def set_other_constgrad():
+    message = HTMLMath(
+        value=CONST_GRAD
+    )
+    alpha = Text(value='1e-1', description=f'Alpha:', disabled=False)
+    iteration = IntText(value=500, description='Макс. итераций', disabled=False)
+    acc = Text(value='10**-5', description=f'Точность:', disabled=False)
+    print_midterm = Checkbox(value=False, description='Выводить промежуточные резултаты?')
+    save_iters_df = Checkbox(value=False, description='Сохранять результаты в dataframe?')
+    confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
+    def callback(wdgt):
+        global params
+        alpha_ = alpha.value
+        try:
+            alpha_ = check_float(alpha_)
+        except ValueError as err:
+            print(err)
+        else:
+            try:
+                iteration_ = iteration.value
+                iteration_ = check_int(iteration_)
+            except TypeError:
+                print('Не вышло, попробуй изменить число итераций')
+            else:
+                try:
+                    acc_ = check_float(acc.value)
+                except TypeError:
+                    print('Не получилос, попробуй изменить точность')
+        alpha.layout.display = 'none'
+        iteration.layout.display = 'none'
+        acc.layout.display = 'none'
+        message.layout.display = 'none'
+        print_midterm.layout.display = 'none'
+        save_iters_df.layout.display = 'none'
+        confirm.layout.display = 'none'
+        print('Успех')
+
+    confirm.on_click(callback)
+    display(message)
+    display(alpha, iteration, acc, print_midterm, save_iters_df, confirm)
+
