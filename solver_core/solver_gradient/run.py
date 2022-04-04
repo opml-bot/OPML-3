@@ -125,23 +125,28 @@ def set_point_low():
         global params
         global variables
         s = []
-        for i in range(len(floats)):
-            floats[i].layout.display = 'none'
-            s.append(floats[i].value)
-        s = ';'.join(s)
         try:
-            a = check_point(s)
-        except ValueError as err:
-            print(err)
-        try:
-            check_dimension(variables, a)
+            for i in range(len(floats)):
+                floats[i].layout.display = 'none'
+                s.append(floats[i].value)
+            s = ';'.join(s)
         except:
-            print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
+            print('Попробуй еще раз')
         else:
-            confirm.layout.display = 'none'
-            message.layout.display = 'none'
-            params['point'] = a
-            set_other()
+            try:
+                a = check_point(s)
+            except ValueError as err:
+                print(err)
+            else:
+                try:
+                    check_dimension(variables, a)
+                except:
+                    print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
+                else:
+                    confirm.layout.display = 'none'
+                    message.layout.display = 'none'
+                    params['point'] = a
+                    set_other()
 
     confirm.on_click(callback)
     display(message)
@@ -161,16 +166,16 @@ def set_point_high():
             a = check_point(text.value.strip())
         except ValueError as err:
             print(err)
-        try:
-            check_dimension(variables, a)
-        except:
-            print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
         else:
-            message.layout.display = 'none'
-            text.layout.display = 'none'
-            params['point'] = a
-            set_other()
-
+            try:
+                check_dimension(variables, a)
+            except:
+                print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
+            else:
+                message.layout.display = 'none'
+                text.layout.display = 'none'
+                params['point'] = a
+                set_other()
 
     text.on_submit(callback)
     display(message)
@@ -236,6 +241,7 @@ def set_other():
     confirm.on_click(callback)
     display(message)
     display(*extra, iteration, acc, print_midterm, save_iters_df, confirm)
+
 
 def calculate():
     global params
