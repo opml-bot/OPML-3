@@ -200,6 +200,8 @@ def set_other():
         except ValueError as err:
             print(err)
         else:
+            for i in range(len(extra)):
+                extra[i].layout.display = 'none'
             try:
                 iteration_ = iteration.value
                 iteration_ = check_int(iteration_)
