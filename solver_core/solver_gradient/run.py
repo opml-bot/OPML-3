@@ -197,6 +197,7 @@ def set_other():
     def callback(wdgt):
         global params
         print(extra)
+        print(names)
         try:
             for i in range(len(extra)):
                 params[names[i]] = check_float(extra[i].value)
