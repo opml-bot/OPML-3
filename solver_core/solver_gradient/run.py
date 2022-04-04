@@ -242,7 +242,7 @@ def calculate():
     variables = get_variables(params['function'])
     func = prepare_func(params['function'], variables)
     grads = prepare_gradient(params['gradient'], variables)
-    point = prepare_point(params['point']
+    point = prepare_point(params['point'])
     max_iter = params['max_iter']
     accur = params['acc']
     printer = params['print_midterm']
