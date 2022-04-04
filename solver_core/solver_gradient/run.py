@@ -232,4 +232,3 @@ def set_other():
     confirm.on_click(callback)
     display(message)
     display(*extra, iteration, acc, print_midterm, save_iters_df, confirm)
-
