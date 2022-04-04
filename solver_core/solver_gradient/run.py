@@ -161,10 +161,11 @@ def set_point_high():
             check_dimension(variables, a)
         except:
             print('Все плохо, перезапусти ячейку(')
-        message.layout.display = 'none'
-        text.layout.display = 'none'
-        params['point'] = a
-        set_other()
+        else:
+            message.layout.display = 'none'
+            text.layout.display = 'none'
+            params['point'] = a
+            set_other()
 
 
     text.on_submit(callback)
