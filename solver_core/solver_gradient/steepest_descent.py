@@ -186,7 +186,6 @@ class SteepestGradient:
                 return self.function(-lamb*gradient_xprev + x_prev)
 
             alpha_numeric = Brandt(to_optim, [0, 1]).solve()
-            alpha_num = Brandt(to_optim, [0, 1]).solve()
 
             new_x = x_prev - alpha_numeric*gradient_xprev
 
