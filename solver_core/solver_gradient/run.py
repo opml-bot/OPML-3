@@ -93,6 +93,8 @@ def set_grad():
             print(err)
         except NameError as err:
             print(err)
+        except ValueError as err:
+            print(err)
         else:
             params['gradient'] = a
             text.layout.display = 'none'
