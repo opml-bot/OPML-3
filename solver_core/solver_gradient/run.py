@@ -197,7 +197,7 @@ def set_other():
         names = ['alpha', 'delta']
         extra.append(alpha)
         extra.append(delta)
-    if params['Method'] == GradientDescentFrac:
+    if params['Method'] == SteepestGradient:
         names = []
     iteration = IntText(value=500, description='Макс. итераций', disabled=False)
     acc = Text(value='10**-5', description=f'Точность:', disabled=False)
