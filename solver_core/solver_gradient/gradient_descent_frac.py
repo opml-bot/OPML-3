@@ -32,6 +32,7 @@ class GradientDescentFrac:
         new_x = self.started_point
         grad_k = self.gradient(self.function, new_x)
         func_k = self.function(new_x)
+        ans = ''
 
         # Будем сохранять историю для каждой итерации. Чтобы нарисовать спуск нужно точки x и значение f
         # Для этого я создал пустой датафрейм в конструкторе и буду его заполнять
@@ -39,6 +40,8 @@ class GradientDescentFrac:
             self.history.loc[0] = [np.array(new_x), func_k, 0]
 
         for i in range(self.max_iteration):
+            if self.print_midterm:
+                ans += f'iter: {i:<4}; x:{new_x}; f(x):{func_k:.5f}\n'
             t = new_x - alpha * grad_k
             func_t = self.function(t)
 
@@ -62,7 +65,7 @@ class GradientDescentFrac:
 
         else:
             code = 1
-        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i + 1}'
+        ans += f'\nx: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i + 1}'
         return ans
 
     def stop_criterion(self, grad):
