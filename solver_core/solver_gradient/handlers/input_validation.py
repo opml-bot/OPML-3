@@ -2,7 +2,7 @@ import re
 
 from typing import Optional
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import sympify, exp
+from sympy import sympify, exp, Symbol
 
 ALLOWED_OPERATIONS = ['log', 'ln', 'factorial', 'sin', 'cos', 'tan', 'cot', 'pi', 'exp', 'sqrt', 'root', 'abs']
 
@@ -43,7 +43,8 @@ def check_expression(expression: str) -> tuple:
                 raise NameError(f"The use of '{name}' is not allowed")
 
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
-    variables = [str(i) for i in list(function.free_symbols)]
+    max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
+    variables = [Symbol(f'x{i}') for i in range(1, max_index+1)]
     return str(function), variables
 
 
