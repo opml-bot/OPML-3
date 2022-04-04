@@ -46,7 +46,7 @@ def set_func():
     message = HTMLMath(
         value=INPUT_FUNCTION
     )
-    text = Text(value=' ',
+    text = Text(value=None,
                 placeholder='Впиши функцию!',
                 description='Функция:',
                 layout=Layout(width='80%', height='80px'),
@@ -196,7 +196,7 @@ def set_other():
         global params
         try:
             for i in range(len(extra)):
-                params[names[i]] = check_float(extra[i])
+                params[names[i]] = check_float(extra[i].value)
         except ValueError as err:
             print(err)
         else:
