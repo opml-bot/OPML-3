@@ -35,7 +35,6 @@ def prepare_func(func: str, variables: list) -> Callable:
     for i in vars_in_func:
         i = str(i)
         func = func.replace(i, dict_for_channge[i])
-    print(func)
     func = 'f=' + func
     d = {}
     exec(func, {'math': math, 'sqrt': sqrt}, d)
