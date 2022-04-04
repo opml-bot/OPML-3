@@ -268,5 +268,3 @@ def calculate():
                                    max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
         ans = task.solve()
     return ans
-
-
