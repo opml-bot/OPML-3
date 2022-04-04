@@ -57,6 +57,7 @@ def set_func():
         global variables
         try:
             a = wdgt.value.strip()
+            print(a)
             a = check_expression(a)
         except SyntaxError as err:
             print(err)
@@ -88,6 +89,7 @@ def set_grad():
         global variables
         try:
             a = wdgt.value.strip()
+            print(a)
             a = check_gradients(a, variables)
         except SyntaxError as err:
             print(err)
@@ -194,6 +196,7 @@ def set_other():
     confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
     def callback(wdgt):
         global params
+        print(extra)
         try:
             for i in range(len(extra)):
                 params[names[i]] = check_float(extra[i].value)
