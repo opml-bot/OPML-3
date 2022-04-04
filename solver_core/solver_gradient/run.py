@@ -237,9 +237,10 @@ def set_other():
                     answer = calculate()
                     return answer
 
-    confirm.on_click(callback)
+    c = confirm.on_click(callback)
     display(message)
     display(*extra, iteration, acc, print_midterm, save_iters_df, confirm)
+    return c
 
 
 def calculate():
