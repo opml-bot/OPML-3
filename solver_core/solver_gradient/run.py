@@ -181,7 +181,7 @@ def set_other():
         extra.append(alpha)
     if params['Method'] == GradientDescentFrac:
         alpha = Text(value='1e-1', description=f'Alpha:', disabled=False)
-        delta = Text(value='1e-1', description=f'Alpha:', disabled=False)
+        delta = Text(value='1e-1', description=f'Delta:', disabled=False)
         names = ['alpha', 'delta']
         extra.append(alpha)
         extra.append(delta)
