@@ -122,6 +122,7 @@ def set_point_low():
 
     def callback(wdgt):
         global params
+        global variables
         s = []
         for i in range(len(floats)):
             floats[i].layout.display = 'none'
@@ -134,11 +135,12 @@ def set_point_low():
         try:
             check_dimension(variables, a)
         except:
-            print('Все плохо, перезапусти ячейку(')
-        confirm.layout.display = 'none'
-        message.layout.display = 'none'
-        params['point'] = a
-        set_other()
+            print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
+        else:
+            confirm.layout.display = 'none'
+            message.layout.display = 'none'
+            params['point'] = a
+            set_other()
 
     confirm.on_click(callback)
     display(message)
@@ -153,6 +155,7 @@ def set_point_high():
 
     def callback(wdgt):
         global params
+        global variables
         try:
             a = check_point(text.value.strip())
         except ValueError as err:
@@ -160,7 +163,7 @@ def set_point_high():
         try:
             check_dimension(variables, a)
         except:
-            print('Все плохо, перезапусти ячейку(')
+            print(f'Кажется размерности не совпадают, надо ввести {len(variables)} переменных.')
         else:
             message.layout.display = 'none'
             text.layout.display = 'none'
