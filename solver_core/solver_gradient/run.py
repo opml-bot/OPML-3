@@ -216,7 +216,6 @@ def set_other():
                 extra[i].layout.display = 'none'
             try:
                 iteration_ = iteration.value
-                iteration_ = check_int(iteration_)
             except TypeError:
                 print('Не вышло, попробуй изменить число итераций')
             else:
