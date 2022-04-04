@@ -2,6 +2,7 @@ from IPython.display import display
 from ipywidgets import Dropdown, Textarea, Layout, Button, Text, HTMLMath,IntSlider, FloatText, IntText, Checkbox
 
 from .handlers.input_validation import *
+from .handlers.preprocessing import *
 from .gradient_descent_const import GradientDescentConst
 from .gradient_descent_frac import GradientDescentFrac
 from .steepest_descent import SteepestGradient
@@ -18,7 +19,7 @@ params = {}
 variables = 0
 
 
-def choose_method():
+def start():
     text = HTMLMath(
         value=HELLO_TEXT
     )
@@ -200,8 +201,6 @@ def set_other():
     confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
     def callback(wdgt):
         global params
-        print(extra)
-        print(names)
         try:
             for i in range(len(extra)):
                 params[names[i]] = check_float(extra[i].value)
@@ -220,19 +219,49 @@ def set_other():
                     acc_ = check_float(acc.value)
                 except TypeError:
                     print('Не получилос, попробуй изменить точность')
-
-        iteration.layout.display = 'none'
-        acc.layout.display = 'none'
-        message.layout.display = 'none'
-        print_midterm.layout.display = 'none'
-        save_iters_df.layout.display = 'none'
-        confirm.layout.display = 'none'
-        params['acc'] = acc_
-        params['max_iter'] = iteration_
-        params['print_midterm'] = print_midterm.value
-        params['save_iters_df'] = save_iters_df.value
-        print('Успех')
+                else:
+                    iteration.layout.display = 'none'
+                    acc.layout.display = 'none'
+                    message.layout.display = 'none'
+                    print_midterm.layout.display = 'none'
+                    save_iters_df.layout.display = 'none'
+                    confirm.layout.display = 'none'
+                    params['acc'] = acc_
+                    params['max_iter'] = iteration_
+                    params['print_midterm'] = print_midterm.value
+                    params['save_iters_df'] = save_iters_df.value
+                    answer = calculate()
+                    return answer
 
     confirm.on_click(callback)
     display(message)
     display(*extra, iteration, acc, print_midterm, save_iters_df, confirm)
+
+def calculate():
+    global params
+    variables = get_variables(params['function'])
+    func = prepare_func(params['function'], variables)
+    grads = prepare_gradient(params['gradient'], variables)
+    point = prepare_point(params['point']
+    max_iter = params['max_iter']
+    accur = params['acc']
+    printer = params['print_midterm']
+    dataframe = params['save_iters_df']
+    if params['Method'] == GradientDescentConst:
+        alpha_ = params['alpha']
+        task = GradientDescentConst(function=func, gradient=grads, started_point=point, alpha=alpha_,
+                                    max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
+        ans = task.solve()
+    if params['Method'] == GradientDescentFrac:
+        alpha_ = params['alpha']
+        delta_ = params['delta']
+        task = GradientDescentFrac(function=func, gradient=grads, started_point=point, alpha=alpha_, delta=delta_,
+                                max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
+        ans = task.solve()
+    if params['Method'] == SteepestGradient:
+        task = GradientDescentFrac(function=func, gradient=grads, started_point=point,
+                                   max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
+        ans = task.solve()
+    return ans
+
+
