@@ -134,7 +134,7 @@ def set_point_low():
         confirm.layout.display = 'none'
         message.layout.display = 'none'
         params['point'] = a
-        print(params)
+        set_other()
 
     confirm.on_click(callback)
     display(message)
@@ -160,6 +160,7 @@ def set_point_high():
         message.layout.display = 'none'
         text.layout.display = 'none'
         params['point'] = a
+        set_other()
 
 
     text.on_submit(callback)
@@ -167,11 +168,23 @@ def set_point_high():
     display(text)
 
 
-def set_other_constgrad():
+def set_other():
     message = HTMLMath(
         value=CONST_GRAD
     )
-    alpha = Text(value='1e-1', description=f'Alpha:', disabled=False)
+    extra = []
+    if params['Method'] == GradientDescentConst:
+        alpha = Text(value='1e-1', description=f'Alpha:', disabled=False)
+        names = ['alpha']
+        extra.append(alpha)
+    if params['Method'] == GradientDescentFrac:
+        alpha = Text(value='1e-1', description=f'Alpha:', disabled=False)
+        delta = Text(value='1e-1', description=f'Alpha:', disabled=False)
+        names = ['alpha', 'delta']
+        extra.append(alpha)
+        extra.append(delta)
+    if params['Method'] == GradientDescentFrac:
+        names = []
     iteration = IntText(value=500, description='Макс. итераций', disabled=False)
     acc = Text(value='10**-5', description=f'Точность:', disabled=False)
     print_midterm = Checkbox(value=False, description='Выводить промежуточные резултаты?')
@@ -179,9 +192,9 @@ def set_other_constgrad():
     confirm = Button(description='Подтвердить', disabled=False, button_style='info', tooltip='Click me', icon='check')
     def callback(wdgt):
         global params
-        alpha_ = alpha.value
         try:
-            alpha_ = check_float(alpha_)
+            for i in range(len(extra)):
+                params[names[i]] = check_float(extra[i])
         except ValueError as err:
             print(err)
         else:
@@ -195,16 +208,20 @@ def set_other_constgrad():
                     acc_ = check_float(acc.value)
                 except TypeError:
                     print('Не получилос, попробуй изменить точность')
-        alpha.layout.display = 'none'
+
         iteration.layout.display = 'none'
         acc.layout.display = 'none'
         message.layout.display = 'none'
         print_midterm.layout.display = 'none'
         save_iters_df.layout.display = 'none'
         confirm.layout.display = 'none'
+        params['acc'] = acc_
+        params['max_iter'] = iteration_
+        params['print_midterm'] = print_midterm.value
+        params['save_iters_df'] = save_iters_df.value
         print('Успех')
 
     confirm.on_click(callback)
     display(message)
-    display(alpha, iteration, acc, print_midterm, save_iters_df, confirm)
+    display(*extra, iteration, acc, print_midterm, save_iters_df, confirm)
 
