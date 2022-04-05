@@ -77,6 +77,7 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
     if grad_str == '' or grad_str == 'False':
         return grad_str
     if var:
+        print(var)
         nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
     else:
         nvars = 0
