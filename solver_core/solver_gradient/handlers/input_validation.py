@@ -88,7 +88,10 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
         ans = []
         for i in range(len(g)):
             checked = check_expression(g[i])
-            nvars_in_grad = int(max(checked[1], key=lambda x: int(x[1:]))[1:])
+            if checked[1]:
+                nvars_in_grad = int(max(checked[1], key=lambda x: int(x[1:]))[1:])
+            else:
+                nvars_in_grad = 0
             if nvars_in_grad > nvars:
                 raise ValueError('В градиенте больше переменных, чем в исходной функции')
             ans.append(checked[0])
