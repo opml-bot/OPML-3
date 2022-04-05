@@ -45,7 +45,7 @@ def check_expression(expression: str) -> tuple:
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
     if function.free_symbols:
         max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
-        variables = [Symbol(f'x{i}') for i in range(1, max_index+1)]
+        variables = [f'x{i}' for i in range(1, max_index+1)]
     else:
         variables = []
     return str(function), variables
