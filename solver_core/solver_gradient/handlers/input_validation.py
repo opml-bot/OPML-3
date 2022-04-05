@@ -44,7 +44,6 @@ def check_expression(expression: str) -> tuple:
 
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
     if function.free_symbols:
-        print(function.free_symbols)
         max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
         variables = [f'x{i}' for i in range(1, max_index+1)]
     else:
@@ -77,10 +76,9 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
 
     if grad_str == '' or grad_str == 'False':
         return grad_str
-    if var:
-        print(var)
+    try:
         nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
-    else:
+    except:
         nvars = 0
 
     g = grad_str.split(splitter)
