@@ -43,10 +43,10 @@ def check_expression(expression: str) -> tuple:
                 raise NameError(f"The use of '{name}' is not allowed")
 
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
-    if function.free_symbols:
+    try:
         max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
         variables = [f'x{i}' for i in range(1, max_index+1)]
-    else:
+    except:
         variables = []
     return str(function), variables
 
@@ -76,9 +76,9 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
 
     if grad_str == '' or grad_str == 'False':
         return grad_str
-    try:
+    if var:
         nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
-    except:
+    else:
         nvars = 0
 
     g = grad_str.split(splitter)
