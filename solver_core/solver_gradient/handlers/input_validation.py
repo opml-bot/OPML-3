@@ -43,8 +43,11 @@ def check_expression(expression: str) -> tuple:
                 raise NameError(f"The use of '{name}' is not allowed")
 
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
-    max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
-    variables = [f'x{i}' for i in range(1, max_index+1)]
+    if function.free_symbols:
+        max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
+        variables = [Symbol(f'x{i}') for i in range(1, max_index+1)]
+    else:
+        variables = []
     return str(function), variables
 
 
@@ -104,11 +107,6 @@ def check_float(value: str) -> float:
     float
         значение переведенное из строки в float
     """
-    if value.find('—') != -1:
-        value = value.replace('—', '-')
-
-    if value.find('–') != -1:
-        value = value.replace('–', '-')
     if value.find('^') != -1:
         value = value.replace('^', '**')
     checker = compile(value, '<string>', 'eval')  # Может выдать SyntaxError, если выражение некорректно
@@ -158,7 +156,7 @@ def check_point(point_str: str, splitter: Optional[str] = ';') -> str:
 
     coords = point_str.split(splitter)
     for i in range(len(coords)):
-        coords[i] = str(check_float(coords[i].strip()))
+        coords[i] = str(check_float(coords[i]))
     points = ';'.join(coords)
     return points
 
