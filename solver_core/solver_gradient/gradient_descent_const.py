@@ -83,6 +83,7 @@ class GradientDescentConst:
         else:
             code = 1
         ans += f'\nx: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i + 1}'
+        print(self.print_midterm)
         return ans
 
     def stop_criterion(self, grad):
