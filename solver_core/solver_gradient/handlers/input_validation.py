@@ -76,7 +76,10 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
 
     if grad_str == '' or grad_str == 'False':
         return grad_str
-    nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
+    if var:
+        nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
+    else:
+        nvars = 0
 
     g = grad_str.split(splitter)
     if len(g) < nvars:
