@@ -1,8 +1,6 @@
 from typing import Optional, Callable
-from math import sqrt, exp
 import numpy as np
-import math
-
+import pandas as pd
 
 
 class GradientDescentFrac:
@@ -27,12 +25,19 @@ class GradientDescentFrac:
         self.acc = acc
         self.print_midterm = print_midterm
         self.save_iters_df = save_iters_df
+        self.history = pd.DataFrame(columns=['x', 'f', 'iteration'])
 
     def solve(self):
         alpha = self.alpha
         new_x = self.started_point
         grad_k = self.gradient(self.function, new_x)
         func_k = self.function(new_x)
+
+        # Будем сохранять историю для каждой итерации. Чтобы нарисовать спуск нужно точки x и значение f
+        # Для этого я создал пустой датафрейм в конструкторе и буду его заполнять
+        if self.save_iters_df:
+            self.history.loc[0] = [np.array(new_x), func_k, 0]
+
         for i in range(self.max_iteration):
             t = new_x - alpha * grad_k
             func_t = self.function(t)
@@ -51,6 +56,9 @@ class GradientDescentFrac:
             if self.stop_criterion(gradient_xprev):
                 code = 0
                 break
+
+            if self.save_iters_df:
+                self.history.loc[i + 1] = [new_x, self.function(new_x), i + 1]
 
         else:
             code = 1
