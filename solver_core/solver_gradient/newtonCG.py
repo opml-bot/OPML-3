@@ -1,5 +1,4 @@
 import autograd.numpy as np
-
 from scipy.optimize import minimize
 from autograd import jacobian
 
@@ -7,7 +6,10 @@ from autograd import jacobian
 
 
 class NewtonCG:
-
+    """
+    Класс для решения задачи многомерной оптимизации методом Ньютон-сопряженного градиента. За основу взята функция из
+    scipy и функция нахождения матрицы
+    """
     def __init__(self, function, x0, jac=None):
         self.function = function
         self.x0 = np.array(list(x0))
