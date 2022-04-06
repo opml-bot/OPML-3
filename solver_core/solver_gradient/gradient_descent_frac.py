@@ -1,8 +1,41 @@
 from typing import Optional, Callable
 import numpy as np
+import pandas as pd
 
 
 class GradientDescentFrac:
+    """
+    Класс для решения задачи оптимизаии n мерной функции методом градиента с дроблением шага.
+    Parameters
+    ----------
+    function: Callable
+        Функция для оптимизации. Задается как питоновская функция от массива, которая возвращает сколяр.
+
+    gradient: Callable
+        Градиент. Задается как питоновская функция от массива, которая возвращает массив. Функция принимает точку
+        и возвращает значение градиента в точке.
+
+    started_point: np.ndarray
+        n - мерный массив, который представляет собой координаты точки, с которой будет начинать работу алгоритм.
+
+    alpha: Optional[flaat] = 1e-1
+        Коэфициент для шага.
+
+    delta: Optional[flaat] = 1e-1
+        Коэф. для дробления шага.
+
+    max_iteration: Optional[int] = 500
+        Число максимально допустимых итераций.
+
+    acc: Optional[float] = 10 ** -5
+        Точночть для критерия остановки.
+
+    print_midterm: Optional[bool] = False
+        Флаг, надо ли выводить промежуточные результаты. Промежуточные результаты будут записаны в итоговую строку.
+
+    save_iters_df: Optional[bool] = False
+        Флаг, сохранять ли результаты в pandas.DataFrame. Этот dataframe используется для построения графика.
+    """
 
     def __init__(self,
                  function: Callable,
@@ -24,13 +57,23 @@ class GradientDescentFrac:
         self.acc = acc
         self.print_midterm = print_midterm
         self.save_iters_df = save_iters_df
+        self.history = pd.DataFrame(columns=['x', 'f', 'iteration'])
 
     def solve(self):
         alpha = self.alpha
         new_x = self.started_point
         grad_k = self.gradient(self.function, new_x)
         func_k = self.function(new_x)
+        ans = ''
+
+        # Будем сохранять историю для каждой итерации. Чтобы нарисовать спуск нужно точки x и значение f
+        # Для этого я создал пустой датафрейм в конструкторе и буду его заполнять
+        if self.save_iters_df:
+            self.history.loc[0] = [np.array(new_x), func_k, 0]
+
         for i in range(self.max_iteration):
+            if self.print_midterm:
+                ans += f'iter: {i:<4}; x:{new_x}; f(x):{func_k:.5f}\n'
             t = new_x - alpha * grad_k
             func_t = self.function(t)
 
@@ -49,9 +92,12 @@ class GradientDescentFrac:
                 code = 0
                 break
 
+            if self.save_iters_df:
+                self.history.loc[i + 1] = [new_x, self.function(new_x), i + 1]
+
         else:
             code = 1
-        ans = f'x: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i + 1}'
+        ans += f'\nx: {new_x}\ny: {self.function(new_x)}\ncode: {code}\niters: {i + 1}'
         return ans
 
     def stop_criterion(self, grad):

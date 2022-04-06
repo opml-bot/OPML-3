@@ -2,7 +2,7 @@ import re
 
 from typing import Optional
 from sympy.parsing.sympy_parser import parse_expr
-from sympy import sympify, exp
+from sympy import sympify, exp, Symbol
 
 ALLOWED_OPERATIONS = ['log', 'ln', 'factorial', 'sin', 'cos', 'tan', 'cot', 'pi', 'exp', 'sqrt', 'root', 'abs']
 
@@ -43,7 +43,11 @@ def check_expression(expression: str) -> tuple:
                 raise NameError(f"The use of '{name}' is not allowed")
 
     function = sympify(expression, {'e': exp(1)}, convert_xor=True)
-    variables = [str(i) for i in list(function.free_symbols)]
+    try:
+        max_index = max([int(str(i)[1:]) for i in list(function.free_symbols)])
+        variables = [f'x{i}' for i in range(1, max_index+1)]
+    except:
+        variables = []
     return str(function), variables
 
 
@@ -72,7 +76,10 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
 
     if grad_str == '' or grad_str == 'False':
         return grad_str
-    nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
+    if var:
+        nvars = int(max(var, key=lambda x: int(x[1:]))[1:])
+    else:
+        nvars = 0
 
     g = grad_str.split(splitter)
     if len(g) < nvars:
@@ -81,7 +88,10 @@ def check_gradients(grad_str: str, var: list, splitter: Optional[str] = ';') -> 
         ans = []
         for i in range(len(g)):
             checked = check_expression(g[i])
-            nvars_in_grad = int(max(checked[1], key=lambda x: int(x[1:]))[1:])
+            if checked[1]:
+                nvars_in_grad = int(max(checked[1], key=lambda x: int(x[1:]))[1:])
+            else:
+                nvars_in_grad = 0
             if nvars_in_grad > nvars:
                 raise ValueError('В градиенте больше переменных, чем в исходной функции')
             ans.append(checked[0])
@@ -103,11 +113,6 @@ def check_float(value: str) -> float:
     float
         значение переведенное из строки в float
     """
-    if value.find('—') != -1:
-        value = value.replace('—', '-')
-
-    if value.find('–') != -1:
-        value = value.replace('–', '-')
     if value.find('^') != -1:
         value = value.replace('^', '**')
     checker = compile(value, '<string>', 'eval')  # Может выдать SyntaxError, если выражение некорректно
@@ -157,7 +162,7 @@ def check_point(point_str: str, splitter: Optional[str] = ';') -> str:
 
     coords = point_str.split(splitter)
     for i in range(len(coords)):
-        coords[i] = str(check_float(coords[i].strip()))
+        coords[i] = str(check_float(coords[i]))
     points = ';'.join(coords)
     return points
 

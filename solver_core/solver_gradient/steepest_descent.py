@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import math
 
+from math import sqrt, exp
 from sympy import lambdify
 from typing import Optional, Callable
 from math import sqrt
@@ -142,6 +143,33 @@ class Brandt:
 
 
 class SteepestGradient:
+    """
+    Класс для решения задачи оптимизаии n мерной функции методом наискорейшего спуска.
+
+    Parameters
+    ----------
+    function: Callable
+        Функция для оптимизации. Задается как питоновская функция от массива, которая возвращает сколяр.
+
+    gradient: Callable
+        Градиент. Задается как питоновская функция от массива, которая возвращает массив. Функция принимает точку
+        и возвращает значение градиента в точке.
+
+    started_point: np.ndarray
+        n - мерный массив, который представляет собой координаты точки, с которой будет начинать работу алгоритм
+
+    max_iteration: Optional[int] = 500
+        Число максимально допустимых итераций.
+
+    acc: Optional[float] = 10 ** -5
+        Точночть для критерия остановки.
+
+    print_midterm: Optional[bool] = False
+        Флаг, надо ли выводить промежуточные результаты. Промежуточные результаты будут записаны в итоговую строку.
+
+    save_iters_df: Optional[bool] = False
+        Флаг, сохранять ли результаты в pandas.DataFrame. Этот dataframe используется для построения графика.
+    """
 
     def __init__(self,
                  function: Callable,
@@ -185,7 +213,6 @@ class SteepestGradient:
                 return self.function(-lamb*gradient_xprev + x_prev)
 
             alpha_numeric = Brandt(to_optim, [0, 1]).solve()
-            alpha_num = Brandt(to_optim, [0, 1]).solve()
 
             new_x = x_prev - alpha_numeric*gradient_xprev
 
@@ -243,6 +270,6 @@ if __name__ == '__main__':
     f = lambda x: (-math.exp(
         (1 / 2) * math.cos(2 * math.pi * x[0]) + (1 / 2) * math.cos(2 * math.pi * x[1])) + math.e + 20 - 20 * math.exp(
         -0.2 * sqrt((1 / 2) * x[0] ** 2 + (1 / 2) * x[1] ** 2)))
-    task = SteepestGradient(function=f, gradient=gradient, started_point=point, print_midterm=1, max_iteration=5)
+    task = SteepestGradient(function=func, gradient=gradient, started_point=point, print_midterm=1, max_iteration=10000)
     answer = task.solve()
-    print(f([1, 1]))
+    print(answer)
