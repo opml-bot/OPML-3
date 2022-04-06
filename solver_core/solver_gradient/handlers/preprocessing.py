@@ -36,7 +36,7 @@ def prepare_func(func: str, variables: list) -> Callable:
         func = func.replace(i, dict_for_channge[i])
     func = 'f=' + func
     d = {}
-    exec(func, {'math': math, 'sqrt': sqrt, 'exp': exp, 'pi': math.pi}, d)
+    exec(func, {'math': math, 'sqrt': sqrt, 'exp': exp, 'pi': math.pi, 'sin': math.sin, 'cos': math.cos()}, d)
     print(func)
     return d['f']
 
