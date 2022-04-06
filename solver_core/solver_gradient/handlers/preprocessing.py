@@ -71,7 +71,6 @@ def prepare_func_newton(func: str, variables: list) -> Callable:
     func = 'f=' + func
     d = {}
     exec(func, {'math': npa, 'sqrt': npa.sqrt, 'exp': npa}, d)
-    print(func)
     return d['f']
 
 
