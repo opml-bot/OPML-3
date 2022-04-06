@@ -113,6 +113,7 @@ def check_float(value: str) -> float:
     float
         значение переведенное из строки в float
     """
+    value = value.strip()
     if value.find('^') != -1:
         value = value.replace('^', '**')
     checker = compile(value, '<string>', 'eval')  # Может выдать SyntaxError, если выражение некорректно
