@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from math import sqrt
+from math import sqrt, exp
 from sympy import sympify, Symbol
 from sympy.utilities.lambdify import lambdastr
 from typing import Optional, Callable
@@ -36,7 +36,7 @@ def prepare_func(func: str, variables: list) -> Callable:
         func = func.replace(i, dict_for_channge[i])
     func = 'f=' + func
     d = {}
-    exec(func, {'math': math, 'sqrt': sqrt}, d)
+    exec(func, {'math': math, 'sqrt': sqrt, 'exp': exp}, d)
     return d['f']
 
 
