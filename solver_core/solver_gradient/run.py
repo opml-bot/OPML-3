@@ -257,15 +257,15 @@ def calculate():
         alpha_ = params['alpha']
         task = GradientDescentConst(function=func, gradient=grads, started_point=point, alpha=alpha_,
                                     max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
-        ans = task.solve()
+        ans = task
     if params['Method'] == GradientDescentFrac:
         alpha_ = params['alpha']
         delta_ = params['delta']
         task = GradientDescentFrac(function=func, gradient=grads, started_point=point, alpha=alpha_, delta=delta_,
                                 max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
-        ans = task.solve()
+        ans = task
     if params['Method'] == SteepestGradient:
-        task = GradientDescentFrac(function=func, gradient=grads, started_point=point,
+        task = SteepestGradient(function=func, gradient=grads, started_point=point,
                                    max_iteration=max_iter, acc=accur, print_midterm=printer, save_iters_df=dataframe)
-        ans = task.solve()
+        ans = task
     return ans
