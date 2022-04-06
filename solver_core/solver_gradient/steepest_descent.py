@@ -189,8 +189,6 @@ class SteepestGradient:
     def solve(self):
         ans = ''
         new_x = self.started_point
-        if self.save_iters_df:
-            self.history.loc[0] = [np.array(new_x), self.function(new_x), 0]
         for i in range(self.max_iteration):
             x_prev = new_x
             # вывод промежуточных
