@@ -37,6 +37,7 @@ def prepare_func(func: str, variables: list) -> Callable:
     func = 'f=' + func
     d = {}
     exec(func, {'math': math, 'sqrt': sqrt, 'exp': exp, 'pi': math.pi}, d)
+    print(func)
     return d['f']
 
 
