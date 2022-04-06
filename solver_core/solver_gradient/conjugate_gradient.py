@@ -218,7 +218,6 @@ class ConjugateGradient:
 
         a = gradient@gradient.T
         b = previous_gradient@previous_gradient.T
-        print('b:' , b)
         bet = -a/b
         return bet
 
