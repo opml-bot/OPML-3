@@ -2,8 +2,7 @@ import numpy as np
 import math
 
 from math import sqrt
-from sympy.parsing.sympy_parser import parse_expr
-from sympy import sympify, exp, Symbol, lambdify
+from sympy import sympify, Symbol
 from sympy.utilities.lambdify import lambdastr
 from typing import Optional, Callable
 
@@ -38,6 +37,41 @@ def prepare_func(func: str, variables: list) -> Callable:
     func = 'f=' + func
     d = {}
     exec(func, {'math': math, 'sqrt': sqrt}, d)
+    return d['f']
+
+
+def prepare_func_newton(func: str, variables: list) -> Callable:
+    """
+    Преобразует функцию записанной в строковом виде в функицю питона, которая принимает на вход массив с координатами
+    точки.
+
+    Parameters:
+    ------------
+    func: str
+        Функция в аналитическом виде, записанная в строке.
+
+    variables: list
+        Список из элементов типа sympy.Symbol. Представляют собой все переменные для функции.
+
+    Returns:
+    -------
+    function
+        питоновская функция
+    """
+    import autograd.numpy as npa
+
+    vars = [str(i) for i in variables[::-1]]
+    dict_for_channge = dict(zip(vars, [f'x[{int(i[1:]) - 1}]' for i in vars]))
+    func = sympify(func)
+    vars_in_func = func.free_symbols
+    func = lambdastr(['x'], func)
+    for i in vars_in_func:
+        i = str(i)
+        func = func.replace(i, dict_for_channge[i])
+    func = 'f=' + func
+    d = {}
+    exec(func, {'math': npa, 'sqrt': npa.sqrt, 'exp': npa}, d)
+    print(func)
     return d['f']
 
 
